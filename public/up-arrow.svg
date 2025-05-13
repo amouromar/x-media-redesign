@@ -1,0 +1,10 @@
+<svg fill="#ffffff" viewBox="0 0 24 24" id="up-arrow" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg"
+    class="icon flat-color">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+    <g id="SVGRepo_iconCarrier">
+        <path id="primary"
+            d="M15.71,5.29l-3-3a1,1,0,0,0-1.42,0l-3,3A1,1,0,0,0,9.71,6.71L11,5.41V21a1,1,0,0,0,2,0V5.41l1.29,1.3a1,1,0,0,0,1.42,0A1,1,0,0,0,15.71,5.29Z"
+            style="fill: #ffffff;"></path>
+    </g>
+</svg>
