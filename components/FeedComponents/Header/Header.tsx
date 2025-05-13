@@ -25,7 +25,9 @@ const Header: React.FC<HeaderProps> = ({
       {/* Name */}
       <div className="flex flex-row gap-1 items-baseline">
         <div>
-          <p className={`text-sm lg:text-base whitespace-nowrap font-bold cursor-pointer hover:underline ${className}`}>
+          <p
+            className={`text-sm lg:text-base whitespace-nowrap font-bold cursor-pointer hover:underline ${className}`}
+          >
             {name}
           </p>
         </div>
@@ -38,12 +40,16 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         )}
         <div>
-          <p className={`text-sm lg:text-base whitespace-nowrap font-extralight hover:underline cursor-pointer ${className}`}>
+          <p
+            className={`text-sm lg:text-base whitespace-nowrap font-extralight hover:underline cursor-pointer ${className}`}
+          >
             {username}
           </p>
         </div>
         <div className={`font-extralight ${className}`}>&#x2022;</div>
-        <div className={`text-sm lg:text-base whitespace-nowrap font-extralight ${className}`}>
+        <div
+          className={`text-sm lg:text-base whitespace-nowrap font-extralight ${className}`}
+        >
           {date}
         </div>
       </div>

@@ -190,7 +190,7 @@ const Carousel: React.FC<CarouselProps> = ({
   }, [currentIndex]);
 
   const handleProgressBarClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     const bar = e.currentTarget;
     const rect = bar.getBoundingClientRect();
@@ -290,7 +290,10 @@ const Carousel: React.FC<CarouselProps> = ({
       {isFullscreen && (
         <>
           {/* On-Screen Info */}
-          <div className="absolute bottom-26 left-5 text-white z-10" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="absolute bottom-26 left-5 text-white z-10"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Name and username */}
             <div className="flex flex-row items-center gap-2 py-1">
               <Header
@@ -335,7 +338,7 @@ const Carousel: React.FC<CarouselProps> = ({
               </button>
             </div>
             {/* Audio */}
-            <div 
+            <div
               className="w-fit flex flex-row items-center gap-2 py-1 bg-gray-900/20 rounded-full px-2 cursor-pointer"
               onClick={(e) => e.stopPropagation()}
             >
@@ -344,7 +347,7 @@ const Carousel: React.FC<CarouselProps> = ({
             </div>
           </div>
           {/* Right Sidebar */}
-          <div 
+          <div
             className="absolute bottom-24 right-5 transform -translate-y-1/2 bg-gray-900/20 rounded-full px-2 py-1 text-center z-10"
             onClick={(e) => e.stopPropagation()}
           >
@@ -488,7 +491,7 @@ const Carousel: React.FC<CarouselProps> = ({
                       />
                     </button>
                     {showSubtitlesMenu && (
-                      <div 
+                      <div
                         className="absolute bottom-10 left-0 bg-black/90 text-white rounded-lg p-2 z-50 min-w-[120px] flex flex-col gap-1"
                         onClick={(e) => e.stopPropagation()}
                       >
@@ -506,7 +509,7 @@ const Carousel: React.FC<CarouselProps> = ({
                             >
                               {lang}
                             </button>
-                          )
+                          ),
                         )}
                       </div>
                     )}
@@ -529,7 +532,7 @@ const Carousel: React.FC<CarouselProps> = ({
                       />
                     </button>
                     {showSpeedMenu && (
-                      <div 
+                      <div
                         className="absolute bottom-10 left-0 bg-black/90 text-white rounded-lg p-2 z-50 min-w-[120px] flex flex-col gap-1"
                         onClick={(e) => e.stopPropagation()}
                       >
@@ -572,7 +575,7 @@ const Carousel: React.FC<CarouselProps> = ({
                       />
                     </button>
                     {showResolutionMenu && (
-                      <div 
+                      <div
                         className="absolute bottom-10 left-0 bg-black/90 text-white rounded-lg p-2 z-50 min-w-[120px] flex flex-col gap-1"
                         onClick={(e) => e.stopPropagation()}
                       >

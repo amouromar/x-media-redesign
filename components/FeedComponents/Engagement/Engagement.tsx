@@ -25,7 +25,7 @@ const Engagement: React.FC<EngagementProps> = ({
   className = "text-white",
 }) => {
   const formatCount = (count: number): string => {
-    if (!count && count !== 0) return '0';
+    if (!count && count !== 0) return "0";
     if (count >= 1000000) {
       return `${(count / 1000000).toFixed(1)}M`;
     }
@@ -37,38 +37,62 @@ const Engagement: React.FC<EngagementProps> = ({
 
   // Add filter class based on text color
   const getFilterClass = () => {
-    if (className.includes('text-white')) return 'brightness-0 invert';
-    if (className.includes('text-gray-500')) return 'brightness-0 opacity-50';
-    return 'brightness-0'; // Default to black
+    if (className.includes("text-white")) return "brightness-0 invert";
+    if (className.includes("text-gray-500")) return "brightness-0 opacity-50";
+    return "brightness-0"; // Default to black
   };
 
   return (
     <div className="flex flex-row gap-4 lg:gap-6 justify-between">
       {/* Comments */}
-      <div 
+      <div
         className="flex flex-row gap-1 items-center py-1 cursor-pointer"
         onClick={onCommentClick}
       >
-        <Image src="/comment.svg" alt="comments" width={18} height={18} className={getFilterClass()} />
-        <p className={`text-sm font-normal mt-0 ${className}`}>{formatCount(commentCount)}</p>
+        <Image
+          src="/comment.svg"
+          alt="comments"
+          width={18}
+          height={18}
+          className={getFilterClass()}
+        />
+        <p className={`text-sm font-normal mt-0 ${className}`}>
+          {formatCount(commentCount)}
+        </p>
       </div>
 
       {/* Retweet */}
-      <div 
+      <div
         className="flex flex-row gap-1 items-center py-1 cursor-pointer"
         onClick={onRetweetClick}
       >
-        <Image src="/retweet.svg" alt="retweet" width={18} height={18} className={getFilterClass()} />
-        <p className={`text-sm font-normal mt-0 ${className}`}>{formatCount(retweetCount)}</p>
+        <Image
+          src="/retweet.svg"
+          alt="retweet"
+          width={18}
+          height={18}
+          className={getFilterClass()}
+        />
+        <p className={`text-sm font-normal mt-0 ${className}`}>
+          {formatCount(retweetCount)}
+        </p>
       </div>
 
       {/* Heart */}
-      <div 
+      <div
         className="flex flex-row gap-2 items-center py-1 cursor-pointer"
         onClick={onHeartClick}
       >
-        <Image src="/heart.svg" alt="heart" width={18} height={18} className={getFilterClass()} />
-        <p className={`text-sm font-normal mt-0 ${className}`}>{formatCount(heartCount)}</p>
+        <Image
+          src="/heart.svg"
+          alt="heart"
+          width={18}
+          height={18}
+          className={getFilterClass()}
+        />
+        <p className={`text-sm font-normal mt-0 ${className}`}>
+          {formatCount(heartCount)}
+        </p>
       </div>
 
       {/* Impressions */}
@@ -80,11 +104,13 @@ const Engagement: React.FC<EngagementProps> = ({
           height={18}
           className={getFilterClass()}
         />
-        <p className={`text-sm font-normal mt-0 ${className}`}>{formatCount(impressionCount)}</p>
+        <p className={`text-sm font-normal mt-0 ${className}`}>
+          {formatCount(impressionCount)}
+        </p>
       </div>
 
       {/* Share */}
-      <div 
+      <div
         className="flex flex-row gap-2 items-center py-1 cursor-pointer"
         onClick={onShareClick}
       >

@@ -54,7 +54,7 @@ const Post: React.FC<PostProps> = ({
 
       {/* Right */}
       <div className="w-fit flex flex-col">
-        <Header 
+        <Header
           name={name}
           username={username}
           date={date}
@@ -62,7 +62,7 @@ const Post: React.FC<PostProps> = ({
         />
         <Description text={description} />
         <Media />
-        <Engagement 
+        <Engagement
           commentCount={commentCount}
           retweetCount={retweetCount}
           heartCount={heartCount}
