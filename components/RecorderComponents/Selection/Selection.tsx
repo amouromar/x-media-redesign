@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useRecording } from "../RecordingContext";
+import { Mic } from "lucide-react";
 
 const Selection: React.FC = () => {
   const { isRecording, startRecording } = useRecording();
@@ -30,12 +31,7 @@ const Selection: React.FC = () => {
             className={`cursor-pointer ${isRecording ? "text-red-500" : ""}`}
             onClick={startRecording}
           >
-            <Image
-              src="/audio/recorder/mic.svg"
-              alt="mic"
-              width={18}
-              height={18}
-            />
+            <Mic size={18} className="text-gray-500"/>
           </div>
         </div>
 

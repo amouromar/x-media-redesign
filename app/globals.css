@@ -6,6 +6,35 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@import "tailwindcss";
+
+@import "tailwindcss";
+
+@import "tailwindcss";
+
+@theme {
+  --animate-marquee: marquee 10s linear infinite;
+  --animate-marquee2: marquee2 10s linear infinite;
+
+  @keyframes marquee2 {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+}
+
 /* Universal Animation Utilities */
 @keyframes fadeIn {
   from {

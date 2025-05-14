@@ -43,10 +43,10 @@ const Engagement: React.FC<EngagementProps> = ({
   };
 
   return (
-    <div className="flex flex-row gap-4 lg:gap-6 justify-between">
+  <div className={`${className}`}>
       {/* Comments */}
       <div
-        className="flex flex-row gap-1 items-center py-1 cursor-pointer"
+        className={`${className} gap-1 items-center py-1 cursor-pointer`}
         onClick={onCommentClick}
       >
         <Image
@@ -63,7 +63,7 @@ const Engagement: React.FC<EngagementProps> = ({
 
       {/* Retweet */}
       <div
-        className="flex flex-row gap-1 items-center py-1 cursor-pointer"
+        className={`${className} gap-1 items-center py-1 cursor-pointer`}
         onClick={onRetweetClick}
       >
         <Image
@@ -80,7 +80,7 @@ const Engagement: React.FC<EngagementProps> = ({
 
       {/* Heart */}
       <div
-        className="flex flex-row gap-2 items-center py-1 cursor-pointer"
+        className={`${className} gap-2 items-center py-1 cursor-pointer`}
         onClick={onHeartClick}
       >
         <Image
@@ -96,7 +96,7 @@ const Engagement: React.FC<EngagementProps> = ({
       </div>
 
       {/* Impressions */}
-      <div className="flex flex-row gap-2 items-center py-1">
+      <div className={`${className} gap-2 items-center py-1`}>
         <Image
           src="/impressions.svg"
           alt="impressions"
@@ -111,7 +111,7 @@ const Engagement: React.FC<EngagementProps> = ({
 
       {/* Share */}
       <div
-        className="flex flex-row gap-2 items-center py-1 cursor-pointer"
+        className={`${className} gap-2 items-center py-1 cursor-pointer`}
         onClick={onShareClick}
       >
         <Image

@@ -25,7 +25,7 @@ interface VideoItem {
 const sampleVideos: VideoItem[] = [
   {
     id: "1",
-    src: "/media/Mars.mp4",
+    src: "/media/Strange.mp4",
     name: "SpaceX",
     username: "@spacex",
     caption:
@@ -57,7 +57,8 @@ const Carousel: React.FC<CarouselProps> = ({
   onFollow,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const [volume, setVolume] = useState(1);
   const [showControls, setShowControls] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -97,7 +98,7 @@ const Carousel: React.FC<CarouselProps> = ({
     video.loop = true;
     video.playbackRate = playbackSpeed;
 
-    if (isPlaying) {
+    if (isPlaying && hasUserInteracted) {
       video.play().catch((error) => {
         console.error("Error playing video:", error);
       });
@@ -115,6 +116,7 @@ const Carousel: React.FC<CarouselProps> = ({
     onVideoChange,
     playbackSpeed,
     videos.length,
+    hasUserInteracted,
   ]);
 
   // Handle keyboard controls
@@ -159,7 +161,10 @@ const Carousel: React.FC<CarouselProps> = ({
     document.addEventListener("touchend", handleTouchEnd, { once: true });
   };
 
-  const handlePlayPause = () => setIsPlaying(!isPlaying);
+  const handlePlayPause = () => {
+    setHasUserInteracted(true);
+    setIsPlaying(!isPlaying);
+  };
   const handleVolumeToggle = () => setVolume(volume === 0 ? 1 : 0);
   const handleDoubleClick = () => {
     if (onLike && videos.length > 0) onLike(videos[currentIndex].id);
@@ -179,27 +184,60 @@ const Carousel: React.FC<CarouselProps> = ({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    const updateTime = () => setCurrentTime(video.currentTime);
-    const updateDuration = () => setDuration(video.duration || 0);
+    
+    const updateTime = () => {
+      if (video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+        setCurrentTime(video.currentTime);
+        setDuration(video.duration);
+      }
+    };
+    
+    const handleLoadedMetadata = () => {
+      setDuration(video.duration);
+      setCurrentTime(0);
+    };
+    
     video.addEventListener("timeupdate", updateTime);
-    video.addEventListener("loadedmetadata", updateDuration);
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("durationchange", updateTime);
+    video.addEventListener("progress", updateTime);
+    
+    // Initial update
+    if (video.readyState >= 2) {
+      updateTime();
+    }
+    
     return () => {
       video.removeEventListener("timeupdate", updateTime);
-      video.removeEventListener("loadedmetadata", updateDuration);
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("durationchange", updateTime);
+      video.removeEventListener("progress", updateTime);
     };
   }, [currentIndex]);
 
   const handleProgressBarClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     const bar = e.currentTarget;
     const rect = bar.getBoundingClientRect();
-    const percent = (e.clientX - rect.left) / rect.width;
+    const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     const newTime = percent * duration;
+    
     if (videoRef.current) {
       videoRef.current.currentTime = newTime;
       setCurrentTime(newTime);
     }
+  };
+
+  // Format time helper function
+  const formatTime = (timeInSeconds: number) => {
+    if (isNaN(timeInSeconds) || timeInSeconds < 0) return "0:00";
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -265,6 +303,26 @@ const Carousel: React.FC<CarouselProps> = ({
     >
       {/* Video Container */}
       <div className={getContainerClass()}>
+        {/* Play Button Overlay */}
+        {!isPlaying && (
+          <div 
+            className="absolute inset-0 flex items-center justify-center z-20 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePlayPause();
+            }}
+          >
+            <div className="w-16 h-16 bg-black/50 rounded-full flex items-center justify-center">
+              <Image
+                src="/media/controls/play.svg"
+                alt="Play"
+                width={32}
+                height={32}
+                className="ml-1"
+              />
+            </div>
+          </div>
+        )}
         {/* Accessibility overlay color */}
         {overlayColor !== "#00000000" && (
           <div
@@ -362,7 +420,7 @@ const Carousel: React.FC<CarouselProps> = ({
               onRetweetClick={() => {
                 if (onShare) onShare(videos[currentIndex].id);
               }}
-              className="text-white"
+              className="text-white flex flex-col lg:flex-row gap-2 justify-between"
             />
           </div>
         </>
@@ -415,27 +473,20 @@ const Carousel: React.FC<CarouselProps> = ({
               {/* Progress bar */}
               <div
                 className={`h-2 bg-gray-400 rounded-full overflow-hidden cursor-pointer relative ${isFullscreen ? "w-7xl" : "w-80 md:w-96"}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleProgressBarClick(e);
-                }}
+                onClick={handleProgressBarClick}
+                onMouseDown={handleProgressBarClick}
               >
                 <div
                   className="h-full bg-white absolute top-0 left-0"
                   style={{
-                    width: duration
-                      ? `${(currentTime / duration) * 100}%`
-                      : "0%",
+                    width: duration > 0 ? `${(currentTime / duration) * 100}%` : "0%",
                   }}
                 />
               </div>
               {/* Time display */}
               <div className="w-8">
                 <span className="text-xs text-center whitespace-nowrap">
-                  {Math.floor((duration - currentTime) / 60)}:
-                  {(Math.floor(duration - currentTime) % 60)
-                    .toString()
-                    .padStart(2, "0")}
+                  {formatTime(duration - currentTime)}
                 </span>
               </div>
               {/* Fullscreen button */}
